@@ -14,7 +14,14 @@ name_to_lookup = sys.argv[1]
 cmd = "dig {} AAAA".format(name_to_lookup)
 
 # issue the command and store the result in a variable
+
+"""
+This is one way to run the command. It is compatible with older python versions.
 query_result = subprocess.check_output(cmd)
+"""
+
+query_result = subprocess.run(cmd,capture_output=True).stdout
+
 
 #decoding the output of the command since it is returned as bytes
 #this turns it into strings.
@@ -31,8 +38,9 @@ ip_addr = []
 for line in parse_string:
     if line.startswith(name_to_lookup):
         line = line.split()
-        # add ipv6 addresses to ip_addr 
-        ip_addr.append(line[4].strip())
+        # add ipv6 addresses to ip_addr
+        if line[3] == "AAAA":
+            ip_addr.append(line[4].strip())
 
 #giving back the results to the user.
 if len(ip_addr) == 0:
