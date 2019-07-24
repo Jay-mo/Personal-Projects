@@ -6,6 +6,7 @@
 #importing the sys and subprocess module
 import sys
 import subprocess
+import re
 
 #taking the name to lookup from the command line.
 name_to_lookup = sys.argv[1]
@@ -20,7 +21,7 @@ This is one way to run the command. It is compatible with older python versions.
 query_result = subprocess.check_output(cmd)
 """
 
-query_result = subprocess.run(cmd,capture_output=True).stdout
+query_result = subprocess.run(cmd,capture_output=True,shell=True).stdout
 
 
 #decoding the output of the command since it is returned as bytes
@@ -50,8 +51,4 @@ else:
 
 for entry in ip_addr:
     print (entry)
-
-#ipv6_regex = r'\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}:\w{1,4}'
-
-#match = re.search(ipv6_regex, query_string)
 
